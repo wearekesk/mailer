@@ -1,0 +1,22 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Caddyfile.example — Sendy (Rust) behind Caddy
+#
+# The Rust binary listens on :4000 (BIND_ADDR). All static assets live under
+# /static/* (Tailwind output) and /uploads/* (brand logos), which Sendy
+# already serves directly via poem's StaticFilesEndpoint — no extra rewrite
+# rules are needed.
+# ─────────────────────────────────────────────────────────────────────────────
+
+mailers.example.com {
+    encode gzip
+
+    # All HTTP traffic forwards to the Rust binary.
+    reverse_proxy http://sendy_app:4000 {
+        header_up X-Forwarded-Proto {scheme}
+        header_up X-Forwarded-For   {remote_host}
+    }
+
+    log {
+        output file /var/log/caddy/sendy.log
+    }
+}

@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/* Tell Tailwind v4 where to scan for class names. */
+@source "../src/**/*.rs";
+@source "../node_modules/flowbite";
+
+/* Class-based dark mode: adding `dark` to <html> flips dark: utilities on. */
+@variant dark (&:where(.dark, .dark *));
+
+/* Project theme tokens:
+ * Clean, neutral zinc/slate dark palette without blue tint.
+ * Primary buttons & accents in dark mode map to clean neutral dark/light contrasts.
+ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  --color-primary-50: #f8fafc;
+  --color-primary-100: #f1f5f9;
+  --color-primary-200: #e2e8f0;
+  --color-primary-300: #cbd5e1;
+  --color-primary-400: #94a3b8;
+  --color-primary-500: #64748b;
+  --color-primary-600: #475569;
+  --color-primary-700: #334155;
+  --color-primary-800: #1e293b;
+  --color-primary-900: #0f172a;
+  --color-primary-950: #020617;
+}
+
+/* Dark mode palette tuning: true neutral black/charcoal backgrounds without blue casts */
+.dark {
+  --color-gray-950: #09090b;
+  --color-gray-900: #121214;
+  --color-gray-800: #18181b;
+  --color-gray-700: #27272a;
+  --color-gray-600: #3f3f46;
+  --color-gray-500: #71717a;
+  --color-gray-400: #a1a1aa;
+  --color-gray-300: #d4d4d8;
+  --color-gray-200: #e4e4e7;
+  --color-gray-100: #f4f4f5;
+  --color-gray-50:  #fafafa;
+
+  /* Templatical Editor Dark Theme variables (matches gray/black neutral theme) */
+  --tpl-user-dark-canvas: #09090b;
+  --tpl-user-dark-surface: #121214;
+  --tpl-user-dark-surface-elevated: #18181b;
+  --tpl-user-dark-border: #27272a;
+  --tpl-user-dark-primary: #f4f4f5;
+  --tpl-user-dark-primary-hover: #e4e4e7;
+  --tpl-user-dark-primary-light: #27272a;
+  --tpl-user-dark-text: #f4f4f5;
+  --tpl-user-dark-text-muted: #a1a1aa;
+}
+
+/* Neutralize legacy blue utility overrides in dark mode across admin and auth views */
+.dark .bg-blue-600,
+.dark .bg-primary-600 {
+  background-color: #27272a;
+  color: #f4f4f5;
+  border-color: #3f3f46;
+}
+
+.dark .bg-blue-600:hover,
+.dark .hover\:bg-blue-700:hover,
+.dark .bg-primary-600:hover,
+.dark .hover\:bg-primary-700:hover {
+  background-color: #3f3f46;
+  color: #ffffff;
+}
+
+.dark .text-blue-600,
+.dark .text-blue-700,
+.dark .text-primary-600,
+.dark .text-primary-700 {
+  color: #e4e4e7;
+}
+
+.dark .text-blue-600:hover,
+.dark .text-blue-700:hover,
+.dark .text-primary-600:hover,
+.dark .text-primary-700:hover {
+  color: #ffffff;
+}
+
+.dark .bg-blue-50,
+.dark .bg-blue-100,
+.dark .bg-primary-50,
+.dark .bg-primary-100 {
+  background-color: #18181b;
+  color: #d4d4d8;
+}
+
+.dark .hover\:bg-blue-100:hover,
+.dark .hover\:bg-primary-100:hover {
+  background-color: #27272a;
+}
+
+.dark .focus\:ring-blue-600:focus,
+.dark .focus\:ring-blue-300:focus,
+.dark .focus\:ring-primary-600:focus,
+.dark .focus\:ring-primary-300:focus,
+.dark .focus\:border-blue-600:focus {
+  --tw-ring-color: #52525b;
+  border-color: #52525b;
+}
+
+.dark .peer-checked\:bg-blue-600:checked,
+.dark .peer-checked\:bg-primary-600:checked {
+  background-color: #52525b;
+}

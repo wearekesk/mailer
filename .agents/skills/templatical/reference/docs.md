@@ -1,0 +1,52 @@
+# docs — answer a question from the reference
+
+**Related:** [integrate.md](integrate.md) and [diagnose.md](diagnose.md) both
+send you here for anything they do not cover
+
+The SDK reference is **not bundled with this skill**. It is fetched, so it is
+always current — a packed copy would be frozen at install time, and these docs
+change faster than anyone reinstalls a skill.
+
+## The three fetches
+
+1. **The index.** `https://docs.templatical.com/llms.txt` — every page, grouped,
+   one line each with its title, URL and a one-sentence description. Read it and
+   pick the single page that answers the question.
+2. **The page.** Build its raw-markdown URL: append `.md`, or `index.md` when
+   the URL ends in `/`. So `/getting-started/installation` becomes
+   `https://docs.templatical.com/getting-started/installation.md`, and the
+   directory URL `/backend/` becomes
+   `https://docs.templatical.com/backend/index.md`. A bare `.md` on a URL
+   ending in `/` is a 404, and the index carries several of those. Fetch the
+   rendered HTML only if the markdown route fails; HTML mangles this product's
+   own merge-tag and logic-tag syntax in every example.
+3. **The playground scene.** Docs remain the contract; playground scenes are
+   the runnable `init()`. `https://play.templatical.com/llms.txt` lists live
+   setups, one line each. Pick the scene that matches the `init()` shape, then
+   fetch `https://play.templatical.com/scenes/<id>.md` for the snippet. Scene
+   twins are always `/scenes/<id>.md` — there is no directory form. Skip this
+   third fetch when the question is not about a live setup.
+
+Fetch one docs page, not several. If the index offers no page that fits, say so
+rather than fetching a near-match and answering from it. The playground index
+is extra, after that page, when you need the pasteable snippet.
+
+## If you have no web-fetch tool
+
+Use the shell, which this skill already requires for every command:
+
+```
+curl -s https://docs.templatical.com/llms.txt
+curl -s https://play.templatical.com/llms.txt
+```
+
+If neither is available, give the user the URL and say what to look for. Do not
+answer an SDK reference question from memory — version-specific details are
+exactly what this route exists to get right.
+
+## Version skew
+
+`https://docs.templatical.com/llms-meta.json` carries the `sdkVersion` the docs
+describe. When it differs from the `@templatical/editor` version in the user's
+project, say so before giving instructions — a feature documented for a later
+version will simply not be there.

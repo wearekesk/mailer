@@ -1,0 +1,21 @@
+pub mod prelude;
+
+pub mod apps;
+pub mod ares;
+pub mod ares_emails;
+pub mod blocked_domains;
+pub mod campaigns;
+pub mod links;
+pub mod lists;
+pub mod login;
+pub mod queue;
+pub mod rules;
+pub mod seg;
+pub mod seg_cons;
+pub mod skipped_emails;
+pub mod subscribers;
+pub mod subscribers_seg;
+pub mod suppression_list;
+pub mod template;
+pub mod webhooks_log;
+pub mod zapier;

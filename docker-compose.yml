@@ -1,0 +1,64 @@
+services:
+  mailer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mailer-app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      BIND_ADDR: "0.0.0.0:3000"
+      APP_URL: "http://localhost:3000"
+      DATABASE_URL: "postgres://mailer:mailerpass@postgres:5432/mailer"
+      SECRET_KEY: "change-me-in-production-mailer-secret-key-32chars!"
+      MAILER_ADMIN_EMAIL: "admin@mailer.local"
+      MAILER_ADMIN_PASSWORD: "ChangeMe!2026"
+      RUST_LOG: "info,mailer=info"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mailpit:
+        condition: service_started
+    volumes:
+      - mailer-uploads:/app/static/uploads
+      - mailer-data:/app/data
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: mailer-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: mailer
+      POSTGRES_PASSWORD: mailerpass
+      POSTGRES_DB: mailer
+    ports:
+      - "5432:5432"
+    volumes:
+      - mailer-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mailer -d mailer"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailer-mailpit
+    restart: unless-stopped
+    ports:
+      - "1025:1025" # SMTP port
+      - "8025:8025" # Web UI
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+    volumes:
+      - mailpit-data:/data
+
+volumes:
+  mailer-pgdata:
+  mailer-uploads:
+  mailer-data:
+  mailpit-data:

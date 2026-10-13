@@ -1,0 +1,20 @@
+# ── Build context exclusions ─────────────────────────────────────────────────
+
+# Original archive – never needed in the image
+*.rar
+
+# The nuller's social-engineering redirect page
+"extracted/Sendy v6.1.3 Nulled/Download More Nulled Scripts.html"
+
+# Version control
+.git
+.gitignore
+
+# Editor / OS noise
+.DS_Store
+*.swp
+*.swo
+Thumbs.db
+target/
+node_modules/
+dist/

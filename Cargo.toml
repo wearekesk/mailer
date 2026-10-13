@@ -1,0 +1,92 @@
+[package]
+name = "mailer"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "mailer"
+path = "src/main.rs"
+
+[dependencies]
+# Web framework
+poem = { version = "3.1", features = ["cookie", "session", "anyhow", "static-files", "multipart", "i18n", "tower-compat"] }
+
+# ORM
+sea-orm = { version = "1.1", features = [
+    "sqlx-postgres",
+    "runtime-tokio-rustls",
+    "macros",
+    "with-chrono",
+    "debug-print",
+] }
+sea-orm-migration = { version = "1.1", features = [
+    "sqlx-postgres",
+    "runtime-tokio-rustls",
+] }
+leptos = { version = "0.8", features = ["ssr"] }
+leptos_router = { version = "0.8", features = ["ssr"] }
+leptos_meta = { version = "0.8", features = ["ssr"] }
+
+# Async
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1"
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Time
+chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = "0.10"
+
+# Tracing
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "json"] }
+
+# Error handling
+anyhow = "1"
+thiserror = "1"
+
+# Config
+dotenvy = "0.15"
+
+# Security
+argon2 = "0.5"
+sha2 = "0.10"
+hex = "0.4"
+rand = "0.8"
+base64 = { version = "0.22", features = ["alloc"] }
+aes = "0.8"
+cbc = { version = "0.1", features = ["alloc"] }
+
+# 2FA
+totp-rs = { version = "5", features = ["gen_secret", "otpauth"] }
+
+# Email
+lettre = { version = "0.11", default-features = false, features = ["tokio1-rustls-tls", "smtp-transport", "builder"] }
+
+# CSV
+csv = "1"
+
+# HTTP client (used by SNS subscription-confirmation handshake)
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+url = "2"
+html-escape = "0.2"
+qrcode = { version = "0.14", default-features = false, features = ["svg"] }
+
+# AWS SES (verification, quota lookup). Sends still go through lettre's
+# SMTP transport; this is just the management API surface.
+aws-config = { version = "1", default-features = false, features = ["rustls", "rt-tokio", "behavior-version-latest"] }
+aws-sdk-sesv2 = { version = "1", default-features = false, features = ["rustls", "rt-tokio"] }
+aws-credential-types = "1"
+
+# Templating + regex for personalization tags
+regex = "1"
+geoip2 = "0.1.8"
+
+# Model Context Protocol (MCP)
+rmcp = { version = "3.5.1", features = ["server", "macros", "transport-streamable-http-server"] }
+schemars = "1.0"
+
+# MJML support
+mrml = "6.0"

@@ -1,0 +1,151 @@
+use sea_orm_migration::prelude::*;
+
+#[derive(DeriveMigrationName)]
+pub struct Migration;
+
+#[derive(Iden)]
+enum Lists {
+    Table,
+    Id,
+    App,
+    UserId,
+    PrevCount,
+    CurrentlyProcessing,
+    TotalRecords,
+    OptIn,
+    Thankyou,
+    Goodbye,
+    UnsubscribeAllList,
+    UnsubscribeConfirm,
+    GdprEnabled,
+    Gdpr,
+    Hide,
+    Name,
+    ConfirmUrl,
+    SubscribedUrl,
+    UnsubscribedUrl,
+    NoConsentUrl,
+    AlreadySubscribedUrl,
+    ReconsentSuccessUrl,
+    ThankyouSubject,
+    GoodbyeSubject,
+    ThankyouMessage,
+    GoodbyeMessage,
+    ConfirmationSubject,
+    ConfirmationEmail,
+    CustomFields,
+    MarketingPermission,
+    WhatToExpect,
+}
+
+#[async_trait::async_trait]
+impl MigrationTrait for Migration {
+    async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
+        manager
+            .create_table(
+                Table::create()
+                    .table(Lists::Table)
+                    .if_not_exists()
+                    .col(
+                        ColumnDef::new(Lists::Id)
+                            .integer()
+                            .not_null()
+                            .auto_increment()
+                            .primary_key(),
+                    )
+                    .col(ColumnDef::new(Lists::App).integer().null())
+                    .col(ColumnDef::new(Lists::UserId).integer().null())
+                    .col(ColumnDef::new(Lists::PrevCount).integer().null())
+                    .col(
+                        ColumnDef::new(Lists::CurrentlyProcessing)
+                            .integer()
+                            .null(),
+                    )
+                    .col(ColumnDef::new(Lists::TotalRecords).integer().null())
+                    .col(ColumnDef::new(Lists::OptIn).small_integer().null())
+                    .col(ColumnDef::new(Lists::Thankyou).small_integer().null())
+                    .col(ColumnDef::new(Lists::Goodbye).small_integer().null())
+                    .col(
+                        ColumnDef::new(Lists::UnsubscribeAllList)
+                            .small_integer()
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Lists::UnsubscribeConfirm)
+                            .small_integer()
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Lists::GdprEnabled)
+                            .small_integer()
+                            .null(),
+                    )
+                    .col(ColumnDef::new(Lists::Gdpr).small_integer().null())
+                    .col(ColumnDef::new(Lists::Hide).small_integer().null())
+                    .col(ColumnDef::new(Lists::Name).string_len(100).null())
+                    .col(ColumnDef::new(Lists::ConfirmUrl).string_len(100).null())
+                    .col(
+                        ColumnDef::new(Lists::SubscribedUrl)
+                            .string_len(100)
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Lists::UnsubscribedUrl)
+                            .string_len(100)
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Lists::NoConsentUrl)
+                            .string_len(100)
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Lists::AlreadySubscribedUrl)
+                            .string_len(100)
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Lists::ReconsentSuccessUrl)
+                            .string_len(100)
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Lists::ThankyouSubject)
+                            .string_len(100)
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Lists::GoodbyeSubject)
+                            .string_len(100)
+                            .null(),
+                    )
+                    .col(ColumnDef::new(Lists::ThankyouMessage).text().null())
+                    .col(ColumnDef::new(Lists::GoodbyeMessage).text().null())
+                    .col(
+                        ColumnDef::new(Lists::ConfirmationSubject)
+                            .text()
+                            .null(),
+                    )
+                    .col(
+                        ColumnDef::new(Lists::ConfirmationEmail)
+                            .text()
+                            .null(),
+                    )
+                    .col(ColumnDef::new(Lists::CustomFields).text().null())
+                    .col(
+                        ColumnDef::new(Lists::MarketingPermission)
+                            .text()
+                            .null(),
+                    )
+                    .col(ColumnDef::new(Lists::WhatToExpect).text().null())
+                    .to_owned(),
+            )
+            .await
+    }
+
+    async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
+        manager
+            .drop_table(Table::drop().table(Lists::Table).if_exists().to_owned())
+            .await
+    }
+}

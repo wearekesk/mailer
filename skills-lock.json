@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "templatical": {
+      "source": "templatical/sdk",
+      "sourceType": "github",
+      "skillPath": "skills/templatical/SKILL.md",
+      "computedHash": "d1c94575b34445b170be3bead445f8a5bcee8e5ea9a43825d5a179629f6fb19b"
+    }
+  }
+}

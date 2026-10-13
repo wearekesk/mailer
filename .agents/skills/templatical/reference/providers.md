@@ -1,0 +1,31 @@
+# Providers
+
+**Consulted by:** [integrate.md](integrate.md)
+**Detail:** [docs.md](docs.md) reaches one reference page per provider — fetch
+the one matching the key being configured
+
+Optional config keys, each a plain object of methods: `templates`,
+`versionHistory`, `comments`, `savedBlocks`, `media`, `testEmail`, `render`.
+Every key stands alone — a feature is absent until its key is passed, not
+merely disabled: no half-rendered panel, no dead button.
+
+**On the storage providers (`templates`, `versionHistory`, `comments`,
+`savedBlocks`, `media`) every mutation is `false | fn`, and it's required,
+never optional.** Passing `false` is a typed statement that the action is
+unavailable — calling it rejects, and the editor hides the control for it
+rather than rendering one that does nothing. Leaving a mutation off the
+object is not the same decision as writing `false`, and a provider has to
+make the choice explicit. `list` / `load` have no `false` option — without
+them there is nothing to open. `render` and `testEmail` are shaped
+differently: every `render` method (`toMjml`, `toHtml`, `compileMjml`) is
+independently optional, and `testEmail` is a single `send`.
+
+The editor has no template browser of its own. After wiring `templates`, the
+host still calls `editor.load(id)` or `editor.create(...)` — a missing Save
+button is the absent key, not a bug. `useSavedBlocks` / `useVersionHistory` /
+`useComments` from `@templatical/core` drive a **custom UI with no editor
+mounted**. They are not how you attach a provider to an editor that is
+already up.
+
+Full contracts and Cloud as one implementation of each: [docs.md](docs.md) →
+the `backend/` pages.
